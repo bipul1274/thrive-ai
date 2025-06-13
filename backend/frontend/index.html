@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrive AI - Conceptual Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Thrive AI</h1>
+            <nav>
+                <button id="btn-hub" class="nav-btn active">🤖 AI Hub</button>
+                <button id="btn-feed" class="nav-btn">🌐 The Feed</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- AI HUB CONTENT -->
+            <div id="hub-content" class="content-section active">
+                <h2>Your Personal Wellness HQ</h2>
+                <form id="recipe-form">
+                    <p>Tell the AI what you need. Let's create something great!</p>
+                    <div class="form-group">
+                        <label for="goal">What is your primary goal?</label>
+                        <select id="goal" name="goal">
+                            <option value="Weight Loss">Weight Loss</option>
+                            <option value="Muscle Gain">Muscle Gain</option>
+                            <option value="Quick & Healthy">Quick & Healthy</option>
+                            <option value="Heart Health">Heart Health</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="restrictions">Any dietary restrictions?</label>
+                        <input type="text" id="restrictions" name="restrictions" placeholder="e.g., gluten-free, no nuts">
+                    </div>
+                    <button type="submit">✨ Generate Recipe</button>
+                </form>
+                <div id="recipe-result" class="result-container">
+                    <!-- AI Recipe will be displayed here -->
+                </div>
+            </div>
+
+            <!-- THE FEED CONTENT -->
+            <div id="feed-content" class="content-section">
+                <h2>Community Lifeline</h2>
+                <div id="feed-container">
+                    <!-- Social feed posts will be loaded here -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
