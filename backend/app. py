@@ -1,0 +1,138 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+import openai
+import os
+import random
+import json
+
+# --- App Setup ---
+app = Flask(__name__)
+# CORS allows our frontend to communicate with this backend
+CORS(app)
+
+# --- (IMPORTANT) Mock OpenAI API Key Setup ---
+# In a real app, set this as an environment variable for security.
+# For this demo, you can set it here if you have one, but the code will
+# use MOCK DATA by default to avoid errors if you don't.
+# openai.api_key = "YOUR_OPENAI_API_KEY" or os.getenv("OPENAI_API_KEY")
+USE_MOCK_DATA = True # Set to False if you have a real API key
+
+# --- Mock Data and Functions ---
+
+def get_mock_recipe():
+    """Returns a realistic-looking mock recipe JSON."""
+    return {
+        "recipeName": "AI's Quick Quinoa Power Bowl",
+        "description": "A perfectly balanced bowl designed for muscle gain and sustained energy. Ready in 20 minutes.",
+        "ingredients": [
+            "1 cup quinoa, cooked",
+            "150g grilled chicken breast, diced",
+            "1/2 avocado, sliced",
+            "1/4 cup black beans, rinsed",
+            "1/4 cup corn",
+            "Handful of spinach",
+            "1 tbsp olive oil",
+            "Juice of 1/2 lime"
+        ],
+        "instructions": [
+            "In a large bowl, add the cooked quinoa and spinach as a base.",
+            "Top with grilled chicken, black beans, corn, and sliced avocado.",
+            "Drizzle with olive oil and lime juice.",
+            "Mix gently and serve immediately."
+        ],
+        "macros": {
+            "calories": "550 kcal",
+            "protein": "45g",
+            "carbs": "50g",
+            "fat": "18g"
+        }
+    }
+
+def get_mock_feed():
+    """Returns a list of mock social feed posts."""
+    return [
+        {
+            "id": 1,
+            "username": "FitLifeAlex",
+            "user_avatar": "https://i.pravatar.cc/50?u=alex",
+            "type": "workout",
+            "content": "Just crushed my new AI-generated HIIT workout! Feeling the burn. Who's with me? 🔥 #ThriveAI #HIIT",
+            "image": "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=400",
+            "likes": 128,
+            "comments": 15
+        },
+        {
+            "id": 2,
+            "username": "MindfulMaria",
+            "user_avatar": "https://i.pravatar.cc/50?u=maria",
+            "type": "thought",
+            "content": "Reminder: It's okay to rest. Your worth isn't measured by your productivity. Take a deep breath today. 🧘‍♀️",
+            "image": None,
+            "likes": 345,
+            "comments": 42
+        },
+        {
+            "id": 3,
+            "username": "ChefChen",
+            "user_avatar": "https://i.pravatar.cc/50?u=chen",
+            "type": "recipe",
+            "content": "Tried the AI Power Bowl from the Hub and added a little sriracha. 10/10 recommend!",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400",
+            "likes": 210,
+            "comments": 28
+        }
+    ]
+
+# --- API Endpoints ---
+
+@app.route('/api/generate-recipe', methods=['POST'])
+def generate_recipe():
+    """
+    Endpoint for the AI Hub. Generates a personalized recipe.
+    """
+    if USE_MOCK_DATA or not openai.api_key:
+        print("Using Mock Recipe Data")
+        return jsonify(get_mock_recipe())
+
+    try:
+        data = request.json
+        goal = data.get('goal', 'a healthy meal')
+        restrictions = data.get('restrictions', 'no specific restrictions')
+
+        # This is where you would do prompt engineering
+        prompt = (
+            f"You are Thrive AI, a helpful wellness assistant. "
+            f"Generate a simple recipe for a user whose goal is '{goal}' and has the following dietary restrictions: '{restrictions}'. "
+            f"Provide the response as a JSON object with keys: 'recipeName', 'description', 'ingredients' (a list of strings), "
+            f"'instructions' (a list of strings), and 'macros' (a JSON object with 'calories', 'protein', 'carbs', 'fat')."
+        )
+
+        # The actual API call to OpenAI
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            # Using response_format for guaranteed JSON is a good practice for gpt-3.5-turbo-1106 and later
+            response_format={"type": "json_object"}
+        )
+        
+        recipe_data = json.loads(response.choices[0].message.content)
+        return jsonify(recipe_data)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "Failed to generate recipe from AI."}), 500
+
+
+@app.route('/api/feed', methods=['GET'])
+def get_feed():
+    """
+    Endpoint for The Feed. Returns a list of social posts.
+    """
+    print("Serving Mock Feed Data")
+    feed_data = get_mock_feed()
+    return jsonify(feed_data)
+
+
+# --- Run the App ---
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)
