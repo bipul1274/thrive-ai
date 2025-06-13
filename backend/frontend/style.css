@@ -1,0 +1,198 @@
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2E7D32;
+    --background-color: #f4f6f8;
+    --card-bg-color: #ffffff;
+    --text-color: #333;
+    --light-text-color: #777;
+    --border-color: #e0e0e0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--card-bg-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+nav {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-btn {
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--light-text-color);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn.active, .nav-btn:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.content-section {
+    display: none;
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.content-section.active {
+    display: block;
+}
+
+h2 {
+    margin-top: 0;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #1B5E20;
+}
+
+/* Result & Feed Styles */
+.loading {
+    text-align: center;
+    color: var(--light-text-color);
+    font-style: italic;
+}
+
+.result-container {
+    margin-top: 25px;
+}
+
+.recipe-card {
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.recipe-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.recipe-card ul, .recipe-card ol {
+    padding-left: 20px;
+}
+
+.macros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    background-color: var(--background-color);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.macro-item span {
+    display: block;
+    font-weight: 600;
+}
+
+.feed-post {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.post-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.post-header span {
+    font-weight: 600;
+}
+
+.post-body p {
+    padding: 0 15px;
+}
+
+.post-body img {
+    width: 100%;
+    height: auto;
+}
+
+.post-footer {
+    padding: 15px;
+    color: var(--light-text-color);
+    font-size: 14px;
+}
